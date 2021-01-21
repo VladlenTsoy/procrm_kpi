@@ -25,14 +25,14 @@ if (is_staff_member()) {
                             <?php echo render_select('staff_ids', $staffs, ['staffid', 'full_name']); ?>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <button class="btn btn-primary" type="submit">Поиск</button>
+                            <button class="btn btn-primary" type="submit"><?php echo _l('Поиск') ?></button>
                         </div>
                     </div>
                     <?php echo form_close() ?>
                     <hr class="hr-panel-heading-dashboard">
                     <div class="row output-statistics">
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <h3 class="title-block">Звонков</h3>
+                            <h3 class="title-block"><?php echo _l('Звонки') ?></h3>
 
                             <div class="stat-block calls-missed">
                                 <div class="stat">
