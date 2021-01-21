@@ -12,6 +12,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // Название модуля
 define('PROCRM_KPI_MODULE_NAME', 'procrm_kpi');
+// Версия
+define('PROCRM_KPI_VERSIONING', '1.0.3');
 
 // Вывод виджета
 hooks()->add_filter('get_dashboard_widgets', 'procrm_kpi_add_dashboard_widget');
@@ -24,4 +26,21 @@ function procrm_kpi_add_dashboard_widget($widgets)
     ];
 
     return $widgets;
+}
+
+// Добавление в хедер
+hooks()->add_action('app_admin_head', 'procrm_kip_add_head_components');
+
+function procrm_kip_add_head_components()
+{
+    echo '<link href="' . module_dir_url('procrm_kpi', 'assets/css/css-circular-prog-bar.css') . '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url('procrm_kpi', 'assets/css/procrm_kpi.css' . '?v=' . PROCRM_KPI_VERSIONING . '') . '"  rel="stylesheet" type="text/css" />';
+}
+
+// Добавление в футер
+hooks()->add_action('app_admin_footer', 'procrm_kip_load_js');
+
+function procrm_kip_load_js()
+{
+    echo '<script src="' . module_dir_url('procrm_kpi', 'assets/js/procrm_kpi.js' . '?v=' . PROCRM_KPI_VERSIONING . '') . '"></script>';
 }

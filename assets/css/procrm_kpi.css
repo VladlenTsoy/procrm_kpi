@@ -1,0 +1,62 @@
+.output-statistics {
+
+}
+
+.output-statistics .title-block{
+    margin: 0 0 1.5rem 0;
+}
+
+.output-statistics .stat-block:not(:last-child){
+    margin-bottom: 1rem;
+}
+
+.output-statistics .stat-block {
+    display: flex;
+    align-items: center;
+}
+
+.output-statistics .stat-block .stat .progress-circle{
+    font-size: 11px;
+    margin: 0 1rem 0 0;
+}
+
+.output-statistics .stat-block .desc .title{
+}
+
+.output-statistics .stat-block .desc .text{
+    font-size: 20px;
+}
+
+.x2 {
+    transform: scale(1.5);
+}
+
+/** Статусы **/
+
+.danger.progress-circle span {
+    color: #f44336;
+}
+
+.danger.progress-circle .value-bar {
+    border-color: #f44336;
+}
+
+.success.progress-circle span {
+    color: #4caf50;
+}
+
+.success.progress-circle .value-bar {
+    border-color: #4caf50;
+}
+
+.primary.progress-circle span {
+    color: #03a9f4;
+}
+
+.primary.progress-circle .value-bar {
+    border-color: #03a9f4;
+}
+
+.primary.progress-circle .first50-bar {
+    border-color: #03a9f4;
+}
