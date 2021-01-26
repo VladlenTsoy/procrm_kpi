@@ -33,95 +33,38 @@ if (is_staff_member()) {
                     <div class="row output-statistics">
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <h3 class="title-block"><?php echo _l('Звонки') ?></h3>
+                            <!---->
+                            <div class="calls-output">
 
-                            <div class="stat-block calls-missed">
-                                <div class="stat">
-                                    <div class="progress-circle p0 primary">
-                                        <span class="x2 percent">0%</span>
-                                        <div class="left-half-clipper">
-                                            <div class="first50-bar"></div>
-                                            <div class="value-bar"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="desc">
-                                    <div class="title text-muted"><?php echo _l('Пропущенных') ?></div>
-                                    <div class="text"><i class="fa fa-spin fa-refresh"></i></div>
-                                </div>
                             </div>
-
-                            <div class="stat-block calls-answered">
-                                <div class="stat">
-                                    <div class="progress-circle p0 primary">
-                                        <span class="x2 percent">0%</span>
-                                        <div class="left-half-clipper">
-                                            <div class="first50-bar"></div>
-                                            <div class="value-bar"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="desc">
-                                    <div class="title text-muted"><?php echo _l('Отвеченных') ?></div>
-                                    <div class="text"><i class="fa fa-spin fa-refresh"></i></div>
-                                </div>
-                            </div>
-
-                            <div class="stat-block calls-outgoing">
-                                <div class="stat">
-                                    <div class="progress-circle p0 primary">
-                                        <span class="x2 percent">0%</span>
-                                        <div class="left-half-clipper">
-                                            <div class="first50-bar"></div>
-                                            <div class="value-bar"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="desc">
-                                    <div class="title text-muted"><?php echo _l('Исходящих') ?></div>
-                                    <div class="text"><i class="fa fa-spin fa-refresh"></i></div>
-                                </div>
-                            </div>
-
-                            <div class="stat-block calls-incoming">
-                                <div class="stat">
-                                    <div class="progress-circle p0 primary">
-                                        <span class="x2 percent">0%</span>
-                                        <div class="left-half-clipper">
-                                            <div class="first50-bar"></div>
-                                            <div class="value-bar"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="desc">
-                                    <div class="title text-muted"><?php echo _l('Входящих') ?></div>
-                                    <div class="text"><i class="fa fa-spin fa-refresh"></i></div>
-                                </div>
-                            </div>
-<!---->
-<!--                            <br/>-->
-<!--                            Всего-->
-<!--                            <br/>-->
-<!--                            <span class="calls-total"><i class="fa fa-spin fa-refresh"></i></span>-->
-<!--                            <br>-->
-<!--                            Пропущенных-->
-<!--                            <br/>-->
-<!--                            <span class="calls-missed"><i class="fa fa-spin fa-refresh"></i></span>-->
-<!--                            <br>-->
-<!--                            Отвеченных-->
-<!--                            <br/>-->
-<!--                            <span class="calls-answered"><i class="fa fa-spin fa-refresh"></i></span>-->
-<!--                            <br/>-->
-<!--                            Исходящих-->
-<!--                            <br/>-->
-<!--                            <span class="calls-outgoing"><i class="fa fa-spin fa-refresh"></i></span>-->
-<!--                            <br/>-->
-<!--                            Входящих-->
-<!--                            <br/>-->
-<!--                            <span class="calls-incoming"><i class="fa fa-spin fa-refresh"></i></span>-->
+                            <!---->
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <h3 class="title-block"><?php echo _l('Задачи') ?></h3>
+                            <!---->
+                            <div class="tasks-output">
+
+                            </div>
+                            <!---->
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <h3 class="title-block"><?php echo _l('Лиды') ?></h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <!---->
+                                    <div class="lead-status-output">
+
+                                    </div>
+                                    <!---->
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <!---->
+                                    <div class="lead-source-output">
+
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-3">
                         </div>

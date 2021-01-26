@@ -2,11 +2,11 @@
 
 }
 
-.output-statistics .title-block{
+.output-statistics .title-block {
     margin: 0 0 1.5rem 0;
 }
 
-.output-statistics .stat-block:not(:last-child){
+.output-statistics .stat-block:not(:last-child) {
     margin-bottom: 1rem;
 }
 
@@ -15,15 +15,15 @@
     align-items: center;
 }
 
-.output-statistics .stat-block .stat .progress-circle{
+.output-statistics .stat-block .stat .progress-circle {
     font-size: 11px;
     margin: 0 1rem 0 0;
 }
 
-.output-statistics .stat-block .desc .title{
+.output-statistics .stat-block .desc .title {
 }
 
-.output-statistics .stat-block .desc .text{
+.output-statistics .stat-block .desc .text {
     font-size: 20px;
 }
 
@@ -33,30 +33,26 @@
 
 /** Статусы **/
 
-.danger.progress-circle span {
-    color: #f44336;
-}
-
-.danger.progress-circle .value-bar {
+.danger.progress-circle span, .danger.progress-circle .value-bar {
     border-color: #f44336;
 }
 
-.success.progress-circle span {
-    color: #4caf50;
+.danger.progress-circle.over50 .first50-bar {
+    background-color: #f44336;
 }
 
-.success.progress-circle .value-bar {
+.success.progress-circle span, .success.progress-circle .value-bar {
     border-color: #4caf50;
 }
 
-.primary.progress-circle span {
-    color: #03a9f4;
+.success.progress-circle.over50 .first50-bar {
+    background-color: #4caf50;
 }
 
-.primary.progress-circle .value-bar {
+.primary.progress-circle span, .primary.progress-circle .value-bar {
     border-color: #03a9f4;
 }
 
-.primary.progress-circle .first50-bar {
-    border-color: #03a9f4;
+.primary.progress-circle.over50 .first50-bar {
+    background-color: #03a9f4;
 }
