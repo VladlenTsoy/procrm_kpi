@@ -17,28 +17,191 @@ function statistics(data) {
         dataType: 'json',
         data: data,
         success(data) {
-            console.log(data)
-            $('.tasks-output').html(data.tasks)
-            $('.lead-status-output').html(data.leads.status)
-            $('.lead-source-output').html(data.leads.source)
-            $('.projects-output').html(data.projects)
-            $('.clients-output').html(data.clients)
-            $('.contracts-output').html(data.contracts)
-            // Object.entries(data).map(function ([_key, _value]) {
-            //     Object.entries(_value).map(function ([key, value]) {
-            //         if (key !== 'total') {
-            //             const percent = value === 0 ? 0 : (value / (_value.total / 100)).toFixed(0)
-            //             $(`.${_key}-${key}`).find('.text').text(value)
-            //             $(`.${_key}-${key}`).find('.percent').text(percent + '%')
-            //             $(`.${_key}-${key}`).find('.progress-circle').attr('class', `progress-circle primary p${percent}`)
-            //         }
-            //     })
-            // })
-
-            if(data.calls)
+            if (data.calls)
                 calls(data.calls)
+
+            if (data.tasks)
+                tasks(data.tasks)
+
+            if (data.projects)
+                projects(data.projects)
+
+            if (data.leads)
+                leads(data.leads)
+
+            if (data.contracts)
+                contracts(data.leads)
         }
     })
+}
+
+const contracts = (data) => {
+    const options = {
+        series: [44, 55, 41, 17],
+        labels: ["Активность", "Истек срок действия", "Истекает срок действия", "Недавно добавленные"],
+        chart: {
+            type: 'donut',
+        },
+        dataLabels: {
+            dropShadow: {
+                enabled: false,
+            }
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '40%'
+                },
+            },
+        },
+        legend: {
+            position: 'bottom',
+        }
+    };
+
+    new ApexCharts(document.querySelector("#contracts-block"), options).render();
+}
+
+const leads = (data) => {
+    const optionsStatuses = {
+        series: [44, 55, 41, 17, 15, 17, 15],
+        labels: ["Facebook", "Google", "olx", "почта", "С телефоного справончика", "сайт", "Телеграм"],
+        chart: {
+            type: 'donut',
+        },
+        dataLabels: {
+            dropShadow: {
+                enabled: false,
+            }
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '40%'
+                },
+            },
+        },
+        legend: {
+            position: 'bottom',
+        }
+    };
+
+    new ApexCharts(document.querySelector("#leads-statuses-block"), optionsStatuses).render();
+
+    const optionsSources = {
+        series: [44, 55, 41, 17, 15, 17, 15],
+        labels: ["Новый", "Выслано предложение", "В работе", "Нужно позвонить", "Потерянный", "Нужен выезд", "Не обработан"],
+        chart: {
+            type: 'donut',
+        },
+        dataLabels: {
+            dropShadow: {
+                enabled: false,
+            }
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '40%'
+                },
+            },
+        },
+        legend: {
+            position: 'bottom',
+        }
+    };
+
+    new ApexCharts(document.querySelector("#leads-sources-block"), optionsSources).render();
+}
+
+const projects = (data) => {
+    const options = {
+        series: [{
+            name: 'Задачи',
+            data: [21, 22, 10, 28, 16]
+        }],
+        chart: {
+            height: 250,
+            type: 'bar',
+        },
+        plotOptions: {
+            column: {
+                borderRadiusTopLeft: 10,
+                borderRadiusTopRight: 10
+            },
+            bar: {
+                columnWidth: '90%',
+                distributed: true,
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        legend: {
+            show: false
+        },
+        xaxis: {
+            categories: [
+                'Не начат',
+                'Завершено',
+                'В ожидании',
+                'В процессе',
+                'Отменено',
+            ],
+            labels: {
+                style: {
+                    fontSize: '12px'
+                }
+            }
+        }
+    };
+
+    new ApexCharts(document.querySelector("#projects-block"), options).render();
+}
+
+const tasks = (data) => {
+    const options = {
+        series: [{
+            name: 'Задачи',
+            data: [21, 22, 10, 28, 16]
+        }],
+        chart: {
+            height: 250,
+            type: 'bar',
+        },
+        plotOptions: {
+            column: {
+                borderRadiusTopLeft: 10,
+                borderRadiusTopRight: 10
+            },
+            bar: {
+                columnWidth: '90%',
+                distributed: true,
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        legend: {
+            show: false
+        },
+        xaxis: {
+            categories: [
+                'Не начата',
+                'В процессе',
+                'На проверке',
+                'В ожидании',
+                'Завершена',
+            ],
+            labels: {
+                style: {
+                    fontSize: '12px'
+                }
+            }
+        }
+    };
+
+    new ApexCharts(document.querySelector("#tasks-block"), options).render();
 }
 
 const calls = (data) => {
@@ -128,6 +291,7 @@ const calls = (data) => {
         },
         stroke: {
             width: 1,
+            lineCap: "round",
             colors: ['#fff']
         },
         xaxis: {

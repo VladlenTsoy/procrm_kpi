@@ -1,7 +1,7 @@
 <?php
 
 
-class Procrm_voip_telephone extends App_Model
+class Procrm_kpi_telephones extends App_Model
 {
     /**
      * Создать

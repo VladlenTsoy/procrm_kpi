@@ -14,7 +14,7 @@ class Api extends AdminController
         $this->load->model('Procrm_kpi_tasks', 'kpi_tasks');
         $this->load->model('Procrm_kpi_projects', 'kpi_projects');
         $this->load->model('Procrm_kpi_contracts', 'kpi_contracts');
-        $this->load->model('Procrm_voip_telephone', 'telephone_model');
+        $this->load->model('Procrm_kpi_telephones', 'kpi_telephones');
         $this->load->model('Procrm_kpi_asterisk_cdr_model', 'kpi_cdr');
     }
 
@@ -31,11 +31,11 @@ class Api extends AdminController
 
         echo json_encode([
             'calls' => $calls,
-            'tasks' => $this->load->view('block', ['data' => $tasks], true),
+            'tasks' => $tasks,
             'leads' => $leads,
-            'projects' => $this->load->view('block', ['data' => $projects], true),
-            'clients' => $this->load->view('block', ['data' => $clients], true),
-            'contracts' => $this->load->view('block', ['data' => $contracts], true),
+            'projects' => $projects,
+            'clients' => $clients,
+            'contracts' => $contracts,
         ], JSON_NUMERIC_CHECK);
     }
 
@@ -46,7 +46,7 @@ class Api extends AdminController
      */
     public function getCalls($post)
     {
-        $telephones = $this->telephone_model->get();
+        $telephones = $this->kpi_telephones->get();
         $where = [];
 
         $_telephones = [];
@@ -89,7 +89,6 @@ class Api extends AdminController
 
 
         return [
-            'view' => $this->load->view('calls_block', [], true),
             'data' => [
                 'total' => $count,
                 'radialBar' => [
@@ -115,7 +114,8 @@ class Api extends AdminController
 
     /**
      * Вывод заданий
-     * @return array
+     * @param $post
+     * @return object|string
      */
     public function getTasks($post)
     {
@@ -133,7 +133,7 @@ class Api extends AdminController
 
         list($count, $notStarted, $progress, $check, $waiting, $completed) = $this->kpi_tasks->get($where);
 
-        return [
+        $data = [
             'total' => $count,
             'view' => [
                 'notStarted' => [
@@ -163,6 +163,8 @@ class Api extends AdminController
                 ]
             ],
         ];
+
+        return $data;
     }
 
 
