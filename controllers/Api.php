@@ -10,9 +10,12 @@ class Api extends AdminController
         $this->load->model('leads_model');
         $this->load->model('staff_model');
         $this->load->model('Procrm_kpi_leads', 'kpi_leads');
+        $this->load->model('Procrm_kpi_clients', 'kpi_clients');
         $this->load->model('Procrm_kpi_tasks', 'kpi_tasks');
+        $this->load->model('Procrm_kpi_projects', 'kpi_projects');
+        $this->load->model('Procrm_kpi_contracts', 'kpi_contracts');
         $this->load->model('Procrm_voip_telephone', 'telephone_model');
-        $this->load->model('Procrm_voip_asterisk_cdr_model', 'cdr_model');
+        $this->load->model('Procrm_kpi_asterisk_cdr_model', 'kpi_cdr');
     }
 
 
@@ -22,11 +25,17 @@ class Api extends AdminController
         $calls = $this->getCalls($post);
         $tasks = $this->getTasks($post);
         $leads = $this->getLeads($post);
+        $projects = $this->getProjects($post);
+        $clients = $this->getClients($post);
+        $contracts = $this->getContracts($post);
 
         echo json_encode([
-            'calls' => $this->load->view('block', ['data' => $calls], true),
+            'calls' => $calls,
             'tasks' => $this->load->view('block', ['data' => $tasks], true),
-            'leads' => $leads
+            'leads' => $leads,
+            'projects' => $this->load->view('block', ['data' => $projects], true),
+            'clients' => $this->load->view('block', ['data' => $clients], true),
+            'contracts' => $this->load->view('block', ['data' => $contracts], true),
         ], JSON_NUMERIC_CHECK);
     }
 
@@ -63,31 +72,43 @@ class Api extends AdminController
             $where[] = "(calldate BETWEEN '" . $dateFrom . "' AND '" . $dateTo . "')";
         }
 
-        list($count, $answered, $noAnswered, $outgoing, $incoming) = $this->cdr_model->getCdr($where);
+        list($count, $answered, $noAnswered, $outgoing, $incoming) = $this->kpi_cdr->getCountByDisposition($where);
+        list($total, $types) = $this->kpi_cdr->getCountByWeek($where);
+
+        $a = [];
+        $weekDays = [0, 1, 2, 3, 4, 5, 6];
+        if ($types) {
+            foreach ($types as $type => $typeVal) {
+                $a[$type] = $a[$type] ?? [];
+                foreach ($weekDays as $day) {
+                    $a[$type][$day] = isset($a[$type][$day]) ? $a[$type][$day] : 0;
+                    $a[$type][$day] = $a[$type][$day] + (isset($typeVal[$day]['COUNT(cdr.clid)']) ? $typeVal[$day]['COUNT(cdr.clid)'] : 0);
+                }
+            }
+        }
+
 
         return [
-            'total' => $count,
-            'view' => [
-                'missed' => [
-                    'name' => _l('Пропущенных'),
-                    'value' => $noAnswered,
-                    'color' => 'danger',
+            'view' => $this->load->view('calls_block', [], true),
+            'data' => [
+                'total' => $count,
+                'radialBar' => [
+                    'labels' => [
+                        _l('Входящих') . ' ' . $incoming,
+                        _l('Исходящих') . ' ' . $outgoing,
+                        _l('Отвеченных') . ' ' . $answered,
+                        _l('Пропущенных') . ' ' . $noAnswered
+                    ],
+                    'series' => [
+                        $incoming ? round($incoming / ($count / 100)) : $incoming,
+                        $outgoing ? round($outgoing / ($count / 100)) : $outgoing,
+                        $answered ? round($answered / ($count / 100)) : $answered,
+                        $noAnswered ? round($noAnswered / ($count / 100)) : $noAnswered
+                    ],
                 ],
-                'answered' => [
-                    'name' => _l('Отвеченных'),
-                    'value' => $answered,
-                    'color' => 'success',
-                ],
-                'outgoing' => [
-                    'name' => _l('Исходящих'),
-                    'value' => $outgoing,
-                    'color' => 'primary',
-                ],
-                'incoming' => [
-                    'name' => _l('Входящих'),
-                    'value' => $incoming,
-                    'color' => 'primary',
-                ],
+                'growth' => [
+                    'series' => (array)$a
+                ]
             ]
         ];
     }
@@ -144,6 +165,59 @@ class Api extends AdminController
         ];
     }
 
+
+    /**
+     * Вывод проект
+     * @return array
+     */
+    public function getProjects($post)
+    {
+        $where = ['id = id'];
+
+        if (isset($post['staff_ids']) && $post['staff_ids'] !== '') {
+            $where[] = "(id IN (SELECT project_id FROM " . db_prefix() . "project_members WHERE staff_id IN (" . $post['staff_ids'] . ")))";
+        }
+
+        if (isset($post['from_date']) && $post['from_date'] !== '' || isset($post['to_date']) && $post['to_date'] !== '') {
+            $dateFrom = isset($post['from_date']) && $post['from_date'] ? $post['from_date'] : '0000-00-00';
+            $dateTo = isset($post['to_date']) && $post['to_date'] !== '' ? date('Y-m-d', strtotime($post['to_date'] . ' + 1 day')) : date('Y-m-d', strtotime('+ 1 day'));
+            $where[] = "(start_date BETWEEN '" . $dateFrom . "' AND '" . $dateTo . "')";
+        }
+
+        list($count, $notStarted, $progress, $check, $waiting, $completed) = $this->kpi_projects->get($where);
+
+        return [
+            'total' => $count,
+            'view' => [
+                'notStarted' => [
+                    'value' => $notStarted,
+                    'name' => _l('project_status_1'),
+                    'color' => 'primary'
+                ],
+                'progress' => [
+                    'value' => $progress,
+                    'name' => _l('project_status_4'),
+                    'color' => 'primary'
+                ],
+                'check' => [
+                    'value' => $check,
+                    'name' => _l('project_status_3'),
+                    'color' => 'primary'
+                ],
+                'waiting' => [
+                    'value' => $waiting,
+                    'name' => _l('project_status_2'),
+                    'color' => 'primary'
+                ],
+                'completed' => [
+                    'value' => $completed,
+                    'name' => _l('project_status_5'),
+                    'color' => 'primary'
+                ]
+            ],
+        ];
+    }
+
     /**
      * Лиды
      * @param $post
@@ -172,6 +246,92 @@ class Api extends AdminController
                 'total' => $this->kpi_leads->getAll($where),
                 'view' => $this->kpi_leads->getSource($where)
             ]], true),
+        ];
+    }
+
+
+    /**
+     * @param $post
+     * @return array
+     */
+    public function getClients($post)
+    {
+        $where = ['userid = userid'];
+
+        if (isset($post['staff_ids']) && $post['staff_ids'] !== '') {
+            $where[] = "(userid IN (SELECT customer_id FROM " . db_prefix() . "customer_admins WHERE staff_id IN (" . $post['staff_ids'] . ")))";
+        }
+
+        if (isset($post['from_date']) && $post['from_date'] !== '' || isset($post['to_date']) && $post['to_date'] !== '') {
+            $dateFrom = isset($post['from_date']) && $post['from_date'] ? $post['from_date'] : '0000-00-00';
+            $dateTo = isset($post['to_date']) && $post['to_date'] !== '' ? date('Y-m-d', strtotime($post['to_date'] . ' + 1 day')) : date('Y-m-d', strtotime('+ 1 day'));
+            $where[] = "(datecreated BETWEEN '" . $dateFrom . "' AND '" . $dateTo . "')";
+        }
+
+        list($count, $active, $notActive) = $this->kpi_clients->get($where);
+
+        return [
+            'total' => $count,
+            'view' => [
+                'active' => [
+                    'value' => $active,
+                    'name' => _l('Активных'),
+                    'color' => 'success'
+                ],
+                'notActive' => [
+                    'value' => $notActive,
+                    'name' => _l('Неактивных'),
+                    'color' => 'danger'
+                ],
+            ],
+        ];
+    }
+
+
+    /**
+     * @param $post
+     * @return array
+     */
+    public function getContracts($post)
+    {
+        $where = ['id = id'];
+
+        if (isset($post['staff_ids']) && $post['staff_ids'] !== '') {
+            $where[] = "(addedfrom IN (" . $post['staff_ids'] . "))";
+        }
+
+        if (isset($post['from_date']) && $post['from_date'] !== '' || isset($post['to_date']) && $post['to_date'] !== '') {
+            $dateFrom = isset($post['from_date']) && $post['from_date'] ? $post['from_date'] : '0000-00-00';
+            $dateTo = isset($post['to_date']) && $post['to_date'] !== '' ? date('Y-m-d', strtotime($post['to_date'] . ' + 1 day')) : date('Y-m-d', strtotime('+ 1 day'));
+            $where[] = "(dateadded BETWEEN '" . $dateFrom . "' AND '" . $dateTo . "')";
+        }
+
+        list($count, $active, $_2, $_3, $_4) = $this->kpi_contracts->get($where);
+
+        return [
+            'total' => $count,
+            'view' => [
+                'active' => [
+                    'value' => $active,
+                    'name' => _l('Активность'),
+                    'color' => 'primary'
+                ],
+                '2' => [
+                    'value' => $_2,
+                    'name' => _l('Истек срок действия'),
+                    'color' => 'danger'
+                ],
+                '3' => [
+                    'value' => $_3,
+                    'name' => _l('Истекает срок действия'),
+                    'color' => 'danger'
+                ],
+                '4' => [
+                    'value' => $_4,
+                    'name' => _l('Недавно добавленные'),
+                    'color' => 'success'
+                ],
+            ],
         ];
     }
 }

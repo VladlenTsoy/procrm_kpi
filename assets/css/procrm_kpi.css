@@ -1,7 +1,24 @@
+#calls-radial-bar {
+    margin: -30px auto -50px;
+}
+
+#calls-growth-chart {
+    min-height: 115px;
+}
+
 .output-statistics {
 
 }
 
+.output-statistics .block-output{
+    margin-bottom: 1rem;
+}
+
+.output-statistics .block-output .hr-panel-heading-dashboard{
+    margin-top: 20px;
+}
+
+/**??*/
 .output-statistics .title-block {
     margin: 0 0 1.5rem 0;
 }

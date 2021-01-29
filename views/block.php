@@ -1,5 +1,6 @@
 <?php foreach ($data['view'] as $key => $item) { ?>
-    <?php $per = $item['value'] === 0 ? $item['value'] : round($item['value'] / ($data['total'] / 100)) ?>
+    <?php $per = isset($item['value']) && $item['value'] && $item['value'] !== 0 ?
+        round($item['value'] / ($data['total'] / 100)) : 0 ?>
     <div class="stat-block">
         <div class="stat">
             <div class="progress-circle p<?php echo $per ?> <?php echo $per > 50 ? 'over50' : '' ?> <?php echo $item['color'] ?>">

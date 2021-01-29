@@ -31,42 +31,69 @@ if (is_staff_member()) {
                     <?php echo form_close() ?>
                     <hr class="hr-panel-heading-dashboard">
                     <div class="row output-statistics">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <h3 class="title-block"><?php echo _l('Звонки') ?></h3>
-                            <!---->
-                            <div class="calls-output">
+                        <div class="col-xs-12">
+                            <div class="calls-output block-output">
 
                             </div>
-                            <!---->
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <h3 class="title-block"><?php echo _l('Задачи') ?></h3>
-                            <!---->
-                            <div class="tasks-output">
 
-                            </div>
-                            <!---->
-                        </div>
-                        <div class="col-md-6 col-sm-12 col-xs-12">
-                            <h3 class="title-block"><?php echo _l('Лиды') ?></h3>
                             <div class="row">
-                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <h3 class="title-block"><?php echo _l('Задачи') ?></h3>
                                     <!---->
-                                    <div class="lead-status-output">
+                                    <div class="tasks-output">
 
                                     </div>
                                     <!---->
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <h3 class="title-block"><?php echo _l('Лиды') ?></h3>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <!---->
+                                            <div class="lead-status-output">
+
+                                            </div>
+                                            <!---->
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <!---->
+                                            <div class="lead-source-output">
+
+                                            </div>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <hr class="hr-panel-heading-dashboard" style="margin-top: 1rem">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <h3 class="title-block"><?php echo _l('Проекты') ?></h3>
                                     <!---->
-                                    <div class="lead-source-output">
+                                    <div class="projects-output">
+
+                                    </div>
+                                    <!---->
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <h3 class="title-block"><?php echo _l('Клиенты') ?></h3>
+                                    <!---->
+                                    <div class="clients-output">
+
+                                    </div>
+                                    <!---->
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <h3 class="title-block"><?php echo _l('Договоры') ?></h3>
+                                    <!---->
+                                    <div class="contracts-output">
 
                                     </div>
                                     <!---->
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
                         </div>
                     </div>
                 </div>

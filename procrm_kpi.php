@@ -33,6 +33,7 @@ hooks()->add_action('app_admin_head', 'procrm_kip_add_head_components');
 
 function procrm_kip_add_head_components()
 {
+    echo '<link href="' . module_dir_url('procrm_kpi', 'assets/css/apexcharts.css') . '"  rel="stylesheet" type="text/css" />';
     echo '<link href="' . module_dir_url('procrm_kpi', 'assets/css/css-circular-prog-bar.css') . '"  rel="stylesheet" type="text/css" />';
     echo '<link href="' . module_dir_url('procrm_kpi', 'assets/css/procrm_kpi.css' . '?v=' . PROCRM_KPI_VERSIONING . '') . '"  rel="stylesheet" type="text/css" />';
 }
@@ -42,5 +43,6 @@ hooks()->add_action('app_admin_footer', 'procrm_kip_load_js');
 
 function procrm_kip_load_js()
 {
+    echo '<script src="' . module_dir_url('procrm_kpi', 'assets/js/apexcharts.min.js') . '"></script>';
     echo '<script src="' . module_dir_url('procrm_kpi', 'assets/js/procrm_kpi.js' . '?v=' . PROCRM_KPI_VERSIONING . '') . '"></script>';
 }
