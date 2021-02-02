@@ -69,8 +69,6 @@ if (is_staff_member()) {
                                         </div>
                                     </div>
                                 <?php } ?>
-                            </div>
-                            <div class="row">
                                 <?php if (has_permission(PROCRM_KPI_MODULE_NAME, '', 'leads')) { ?>
                                     <div class="col-md-8 col-sm-12">
                                         <h3 class="title-block"><?php echo _l('leads') ?></h3>
