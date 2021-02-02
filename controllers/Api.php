@@ -22,12 +22,12 @@ class Api extends AdminController
     public function index()
     {
         $post = $this->input->post();
-        $calls = $this->getCalls($post);
-        $tasks = $this->getTasks($post);
-        $leads = $this->getLeads($post);
-        $projects = $this->getProjects($post);
-        $clients = $this->getClients($post);
-        $contracts = $this->getContracts($post);
+        $calls = has_permission(PROCRM_KPI_MODULE_NAME, '', 'telephone') ? $this->getCalls($post) : false;
+        $tasks = has_permission(PROCRM_KPI_MODULE_NAME, '', 'tasks') ? $this->getTasks($post) : false;
+        $leads = has_permission(PROCRM_KPI_MODULE_NAME, '', 'leads') ? $this->getLeads($post) : false;
+        $projects = has_permission(PROCRM_KPI_MODULE_NAME, '', 'projects') ? $this->getProjects($post) : false;
+        $clients = has_permission(PROCRM_KPI_MODULE_NAME, '', 'clients') ? $this->getClients($post) : false;
+        $contracts = has_permission(PROCRM_KPI_MODULE_NAME, '', 'contracts') ? $this->getContracts($post) : false;
 
         echo json_encode([
             'calls' => $calls,
@@ -115,7 +115,7 @@ class Api extends AdminController
     /**
      * Вывод заданий
      * @param $post
-     * @return object|string
+     * @return array
      */
     public function getTasks($post)
     {
@@ -133,38 +133,13 @@ class Api extends AdminController
 
         list($count, $notStarted, $progress, $check, $waiting, $completed) = $this->kpi_tasks->get($where);
 
-        $data = [
+        return [
             'total' => $count,
-            'view' => [
-                'notStarted' => [
-                    'value' => $notStarted,
-                    'name' => _l('task_status_1'),
-                    'color' => 'primary'
-                ],
-                'progress' => [
-                    'value' => $progress,
-                    'name' => _l('task_status_4'),
-                    'color' => 'primary'
-                ],
-                'check' => [
-                    'value' => $check,
-                    'name' => _l('task_status_3'),
-                    'color' => 'primary'
-                ],
-                'waiting' => [
-                    'value' => $waiting,
-                    'name' => _l('task_status_2'),
-                    'color' => 'primary'
-                ],
-                'completed' => [
-                    'value' => $completed,
-                    'name' => _l('task_status_5'),
-                    'color' => 'primary'
-                ]
+            'data' => [
+                'names' => [_l('task_status_1'), _l('task_status_4'), _l('task_status_3'), _l('task_status_2'), _l('task_status_5')],
+                'values' => [$notStarted, $progress, $check, $waiting, $completed]
             ],
         ];
-
-        return $data;
     }
 
 
@@ -190,32 +165,9 @@ class Api extends AdminController
 
         return [
             'total' => $count,
-            'view' => [
-                'notStarted' => [
-                    'value' => $notStarted,
-                    'name' => _l('project_status_1'),
-                    'color' => 'primary'
-                ],
-                'progress' => [
-                    'value' => $progress,
-                    'name' => _l('project_status_4'),
-                    'color' => 'primary'
-                ],
-                'check' => [
-                    'value' => $check,
-                    'name' => _l('project_status_3'),
-                    'color' => 'primary'
-                ],
-                'waiting' => [
-                    'value' => $waiting,
-                    'name' => _l('project_status_2'),
-                    'color' => 'primary'
-                ],
-                'completed' => [
-                    'value' => $completed,
-                    'name' => _l('project_status_5'),
-                    'color' => 'primary'
-                ]
+            'data' => [
+                'names' => [_l('project_status_1'), _l('project_status_4'), _l('project_status_3'), _l('project_status_2'), _l('project_status_5')],
+                'values' => [$notStarted, $progress, $check, $waiting, $completed]
             ],
         ];
     }
@@ -240,14 +192,8 @@ class Api extends AdminController
         }
 
         return [
-            'status' => $this->load->view('block', ['data' => [
-                'total' => $this->kpi_leads->getAll($where),
-                'view' => $this->kpi_leads->getStatus($where)
-            ]], true),
-            'source' => $this->load->view('block', ['data' => [
-                'total' => $this->kpi_leads->getAll($where),
-                'view' => $this->kpi_leads->getSource($where)
-            ]], true),
+            'statuses' => $this->kpi_leads->getStatus($where),
+            'sources' => $this->kpi_leads->getSource($where)
         ];
     }
 
@@ -312,28 +258,10 @@ class Api extends AdminController
 
         return [
             'total' => $count,
-            'view' => [
-                'active' => [
-                    'value' => $active,
-                    'name' => _l('Активность'),
-                    'color' => 'primary'
-                ],
-                '2' => [
-                    'value' => $_2,
-                    'name' => _l('Истек срок действия'),
-                    'color' => 'danger'
-                ],
-                '3' => [
-                    'value' => $_3,
-                    'name' => _l('Истекает срок действия'),
-                    'color' => 'danger'
-                ],
-                '4' => [
-                    'value' => $_4,
-                    'name' => _l('Недавно добавленные'),
-                    'color' => 'success'
-                ],
-            ],
+            'data' => [
+                'names' => [_l('Активность'), _l('Истек срок действия'), _l('Истекает срок действия'), _l('Недавно добавленные')],
+                'values' => [$active, $_2, $_3, $_4]
+            ]
         ];
     }
 }

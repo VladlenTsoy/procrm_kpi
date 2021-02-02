@@ -32,59 +32,67 @@ if (is_staff_member()) {
                     <hr class="hr-panel-heading-dashboard">
                     <div class="row output-statistics">
                         <div class="col-xs-12">
-                            <!-- Звонки -->
-                            <div class="calls-output block-output">
-                                <h3 class="title-block"><?php echo _l('Звонки') ?></h3>
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <div id="calls-radial-bar"></div>
-                                    </div>
-                                    <div class="col-md-8 col-sm-6 col-xs-12">
-                                        <div id="calls-growth-chart"></div>
+                            <?php if (has_permission(PROCRM_KPI_MODULE_NAME, '', 'telephone')) { ?>
+                                <!-- Звонки -->
+                                <div class="calls-output block-output">
+                                    <h3 class="title-block"><?php echo _l('telephone') ?></h3>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <div id="calls-radial-bar" class="output-wg-block"></div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-12">
+                                            <div id="calls-growth-chart" class="output-wg-block"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <hr class="hr-panel-heading-dashboard">
-                            </div>
+                            <?php } ?>
                             <div class="row">
-                                <div class="col-md-6 col-sm-12 col-xs-12">
-                                    <!-- Задачи -->
-                                    <div class="tasks-output block-output">
-                                        <h3 class="title-block"><?php echo _l('Задачи') ?></h3>
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <div id="tasks-block"></div>
+                                <?php if (has_permission(PROCRM_KPI_MODULE_NAME, '', 'tasks')) { ?>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <!-- Задачи -->
+                                        <div class="tasks-output block-output">
+                                            <h3 class="title-block"><?php echo _l('tasks') ?></h3>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div id="tasks-block" class="output-wg-block"></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 col-xs-12">
-                                    <!-- Проекты -->
-                                    <div class="projects block-output">
-                                        <h3 class="title-block"><?php echo _l('Проекты') ?></h3>
-                                        <div id="projects-block"></div>
+                                <?php } ?>
+                                <?php if (has_permission(PROCRM_KPI_MODULE_NAME, '', 'projects')) { ?>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <!-- Проекты -->
+                                        <div class="projects block-output">
+                                            <h3 class="title-block"><?php echo _l('projects') ?></h3>
+                                            <div id="projects-block" class="output-wg-block"></div>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php } ?>
                             </div>
-                            <hr class="hr-panel-heading-dashboard">
                             <div class="row">
-                                <div class="col-md-8 col-sm-12">
-                                    <h3 class="title-block"><?php echo _l('Лиды') ?></h3>
-                                    <div class="rows">
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <!-- Лиды статусы -->
-                                            <div id="leads-statuses-block"></div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <!-- Лиды откуда -->
-                                            <div id="leads-sources-block"></div>
+                                <?php if (has_permission(PROCRM_KPI_MODULE_NAME, '', 'leads')) { ?>
+                                    <div class="col-md-8 col-sm-12">
+                                        <h3 class="title-block"><?php echo _l('leads') ?></h3>
+                                        <div class="rows">
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <!-- Лиды статусы -->
+                                                <div id="leads-statuses-block" class="output-wg-block"></div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <!-- Лиды откуда -->
+                                                <div id="leads-sources-block" class="output-wg-block"></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6 col-xs-12">
-                                    <h3 class="title-block"><?php echo _l('Договоры') ?></h3>
-                                    <!-- Договоры -->
-                                    <div id="contracts-block"></div>
-                                </div>
+                                <?php } ?>
+                                <?php if (has_permission(PROCRM_KPI_MODULE_NAME, '', 'contracts')) { ?>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <h3 class="title-block"><?php echo _l('contracts') ?></h3>
+                                        <!-- Договоры -->
+                                        <div id="contracts-block" class="output-wg-block"></div>
+                                    </div>
+                                <?php } ?>
                             </div>
 
                         </div>

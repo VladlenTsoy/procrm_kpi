@@ -9,7 +9,8 @@ $(function () {
 })
 
 function statistics(data) {
-    $('.output-statistics').find('.text').html('<i class="fa fa-spin fa-refresh"></i>')
+    $('.output-statistics').find('.output-wg-block')
+        .html('<div style="display:flex;align-items: center;justify-content: center;font-size: 50px;padding: 2rem;" class="loading-block"><i class="fa fa-spin fa-refresh"></i></div>')
 
     $.ajax({
         url: admin_url + '/procrm_kpi/api',
@@ -17,6 +18,8 @@ function statistics(data) {
         dataType: 'json',
         data: data,
         success(data) {
+            $('.output-statistics').find('.loading-block').remove()
+
             if (data.calls)
                 calls(data.calls)
 
@@ -30,15 +33,16 @@ function statistics(data) {
                 leads(data.leads)
 
             if (data.contracts)
-                contracts(data.leads)
+                contracts(data.contracts)
+
         }
     })
 }
 
 const contracts = (data) => {
     const options = {
-        series: [44, 55, 41, 17],
-        labels: ["Активность", "Истек срок действия", "Истекает срок действия", "Недавно добавленные"],
+        series: data.data.values,
+        labels: data.data.names,
         chart: {
             type: 'donut',
         },
@@ -64,8 +68,8 @@ const contracts = (data) => {
 
 const leads = (data) => {
     const optionsStatuses = {
-        series: [44, 55, 41, 17, 15, 17, 15],
-        labels: ["Facebook", "Google", "olx", "почта", "С телефоного справончика", "сайт", "Телеграм"],
+        series: data.statuses.values,
+        labels: data.statuses.names,
         chart: {
             type: 'donut',
         },
@@ -89,8 +93,8 @@ const leads = (data) => {
     new ApexCharts(document.querySelector("#leads-statuses-block"), optionsStatuses).render();
 
     const optionsSources = {
-        series: [44, 55, 41, 17, 15, 17, 15],
-        labels: ["Новый", "Выслано предложение", "В работе", "Нужно позвонить", "Потерянный", "Нужен выезд", "Не обработан"],
+        series: data.sources.values,
+        labels: data.sources.names,
         chart: {
             type: 'donut',
         },
@@ -118,7 +122,7 @@ const projects = (data) => {
     const options = {
         series: [{
             name: 'Задачи',
-            data: [21, 22, 10, 28, 16]
+            data: data.data.values
         }],
         chart: {
             height: 250,
@@ -141,13 +145,7 @@ const projects = (data) => {
             show: false
         },
         xaxis: {
-            categories: [
-                'Не начат',
-                'Завершено',
-                'В ожидании',
-                'В процессе',
-                'Отменено',
-            ],
+            categories: data.data.names,
             labels: {
                 style: {
                     fontSize: '12px'
@@ -163,7 +161,7 @@ const tasks = (data) => {
     const options = {
         series: [{
             name: 'Задачи',
-            data: [21, 22, 10, 28, 16]
+            data: data.data.values
         }],
         chart: {
             height: 250,
@@ -186,13 +184,7 @@ const tasks = (data) => {
             show: false
         },
         xaxis: {
-            categories: [
-                'Не начата',
-                'В процессе',
-                'На проверке',
-                'В ожидании',
-                'Завершена',
-            ],
+            categories: data.data.names,
             labels: {
                 style: {
                     fontSize: '12px'
@@ -205,8 +197,6 @@ const tasks = (data) => {
 }
 
 const calls = (data) => {
-    $('.calls-output').html(data.view)
-
     const radialBarOptions = {
         chart: {
             height: 400,

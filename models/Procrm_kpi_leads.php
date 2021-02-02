@@ -17,20 +17,23 @@ class Procrm_kpi_leads extends App_Model
         $selectQuery = 'SELECT COUNT(' . db_prefix() . 'leads.id) FROM ' . db_prefix() . 'leads';
         $statuses = $this->db->get(db_prefix() . 'leads_status')->result_array();
 
+        $_names = [];
+        $_values = [];
         foreach ($statuses as $status) {
             //
             $query = $selectQuery;
             $query .= ' WHERE source = ' . $status['id'] . ' AND ' . $where;
 
             $sCount = $this->db->query($query)->row();
-            $statusCount[$status['id']] = [
-                'name' => $status['name'],
-                'value' => $sCount->{'COUNT(' . db_prefix() . 'leads.id)'},
-                'color' => 'primary'
-            ];
+
+            $_names[] = $status['name'];
+            $_values[] = $sCount->{'COUNT(' . db_prefix() . 'leads.id)'};
         }
 
-        return $statusCount;
+        return [
+            'names' => $_names,
+            'values' => $_values,
+        ];
     }
 
     /**
@@ -47,20 +50,23 @@ class Procrm_kpi_leads extends App_Model
         $selectQuery = 'SELECT COUNT(' . db_prefix() . 'leads.id) FROM ' . db_prefix() . 'leads';
         $sources = $this->db->get(db_prefix() . 'leads_sources')->result_array();
 
+        $_names = [];
+        $_values = [];
         foreach ($sources as $source) {
             //
             $query = $selectQuery;
             $query .= ' WHERE source = ' . $source['id'] . ' AND ' . $where;
 
             $sCount = $this->db->query($query)->row();
-            $sourceCount[$source['id']] = [
-                'name' => $source['name'],
-                'value' => $sCount->{'COUNT(' . db_prefix() . 'leads.id)'},
-                'color' => 'primary'
-            ];
+
+            $_names[] = $source['name'];
+            $_values[] = $sCount->{'COUNT(' . db_prefix() . 'leads.id)'};
         }
 
-        return $sourceCount;
+        return [
+            'names' => $_names,
+            'values' => $_values,
+        ];
     }
 
     /**
