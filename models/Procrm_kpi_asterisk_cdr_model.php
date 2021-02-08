@@ -32,7 +32,7 @@ class Procrm_kpi_asterisk_cdr_model extends App_Model
 
         // Отвеченных
         $anQuery = 'SELECT COUNT(cdr.clid) FROM cdr';
-        $anQuery .= ' WHERE disposition = "ANSWERED" AND ' . $where;
+        $anQuery .= ' WHERE disposition = "ANSWERED" AND amaflags = 2 AND ' . $where;
 
         $anCount = $this->db_asterisk->query($anQuery)->row();
 
@@ -76,7 +76,7 @@ class Procrm_kpi_asterisk_cdr_model extends App_Model
 
         // Отвеченных
         $anQuery = 'SELECT COUNT(cdr.clid), WEEKDAY(calldate) as week FROM cdr';
-        $anQuery .= ' WHERE disposition = "ANSWERED" AND ' . $where;
+        $anQuery .= ' WHERE disposition = "ANSWERED" AND amaflags = 2 AND ' . $where;
 
         $anCount = $this->db_asterisk->query($anQuery)->result_array();
 

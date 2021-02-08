@@ -13,7 +13,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 // Название модуля
 define('PROCRM_KPI_MODULE_NAME', 'procrm_kpi');
 // Версия
-define('PROCRM_KPI_VERSIONING', '1.0.0');
+define('PROCRM_KPI_VERSIONING', '1.0.1');
 
 // Вывод виджета
 hooks()->add_filter('get_dashboard_widgets', 'procrm_kpi_add_dashboard_widget');

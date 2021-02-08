@@ -62,8 +62,9 @@ class Api extends AdminController
         if (isset($post['staff_ids']) && $post['staff_ids'] !== '') {
             $staff = $this->staff_model->get($post['staff_ids']);
             if ($staff)
-                $where[] = "(src IN (" . $staff->sip_telephone . ") OR dstchannel IN (" . $staff->sip_telephone . ") OR dst IN (" . $staff->sip_telephone . ") OR cnum IN (" . $staff->sip_telephone . "))";
+                $where[] = "(src = " . $staff->sip_telephone . " OR dstchannel LIKE '%" . $staff->sip_telephone . "%' OR dst = " . $staff->sip_telephone . " OR cnum = " . $staff->sip_telephone . ")";
         }
+//        $staff = $this->staff_model->get('', "phonenumber LIKE '%" . $tel . "%'");
 
         // Фильтрация по дате
         if (isset($post['from_date']) && $post['from_date'] !== '' || isset($post['to_date']) && $post['to_date'] !== '') {

@@ -258,19 +258,19 @@ const calls = (data) => {
         series: [
             {
                 name: 'Входящих',
-                data: data.data.growth.series[0],
+                data: data.data.growth.series[3],
                 color: '#feb019'
             }, {
                 name: 'Исходнящие',
-                data: data.data.growth.series[1],
+                data: data.data.growth.series[2],
                 color: '#008ffb'
             }, {
                 name: 'Отвеченных',
-                data: data.data.growth.series[2],
+                data: data.data.growth.series[0],
                 color: '#00e396'
             }, {
                 name: 'Пропущенных',
-                data: data.data.growth.series[3],
+                data: data.data.growth.series[1],
                 color: '#ff4560'
             }
         ],

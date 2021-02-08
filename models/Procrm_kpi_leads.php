@@ -22,7 +22,7 @@ class Procrm_kpi_leads extends App_Model
         foreach ($statuses as $status) {
             //
             $query = $selectQuery;
-            $query .= ' WHERE source = ' . $status['id'] . ' AND ' . $where;
+            $query .= ' WHERE status = ' . $status['id'] . ' AND ' . $where;
 
             $sCount = $this->db->query($query)->row();
 
