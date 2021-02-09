@@ -5,7 +5,8 @@ $(function () {
         statistics(data)
     })
 
-    statistics({})
+    if ($('.output-statistics').length)
+        statistics({})
 })
 
 function statistics(data) {
@@ -63,7 +64,8 @@ const contracts = (data) => {
         }
     };
 
-    new ApexCharts(document.querySelector("#contracts-block"), options).render();
+    if (document.querySelector("#contracts-block"))
+        new ApexCharts(document.querySelector("#contracts-block"), options).render();
 }
 
 const leads = (data) => {
@@ -90,7 +92,8 @@ const leads = (data) => {
         }
     };
 
-    new ApexCharts(document.querySelector("#leads-statuses-block"), optionsStatuses).render();
+    if (document.querySelector("#leads-statuses-block"))
+        new ApexCharts(document.querySelector("#leads-statuses-block"), optionsStatuses).render();
 
     const optionsSources = {
         series: data.sources.values,
@@ -115,7 +118,8 @@ const leads = (data) => {
         }
     };
 
-    new ApexCharts(document.querySelector("#leads-sources-block"), optionsSources).render();
+    if (document.querySelector("#leads-sources-block"))
+        new ApexCharts(document.querySelector("#leads-sources-block"), optionsSources).render();
 }
 
 const projects = (data) => {
@@ -154,7 +158,8 @@ const projects = (data) => {
         }
     };
 
-    new ApexCharts(document.querySelector("#projects-block"), options).render();
+    if (document.querySelector("#projects-block"))
+        new ApexCharts(document.querySelector("#projects-block"), options).render();
 }
 
 const tasks = (data) => {
@@ -193,7 +198,8 @@ const tasks = (data) => {
         }
     };
 
-    new ApexCharts(document.querySelector("#tasks-block"), options).render();
+    if (document.querySelector("#tasks-block"))
+        new ApexCharts(document.querySelector("#tasks-block"), options).render();
 }
 
 const calls = (data) => {
@@ -245,7 +251,8 @@ const calls = (data) => {
         colors: ['#feb019', '#008ffb', '#00e396', '#ff4560'],
     };
 
-    new ApexCharts(document.querySelector("#calls-radial-bar"), radialBarOptions).render();
+    if (document.querySelector("#calls-radial-bar"))
+        new ApexCharts(document.querySelector("#calls-radial-bar"), radialBarOptions).render();
 
     const growthOptions = {
         chart: {
@@ -306,5 +313,7 @@ const calls = (data) => {
             horizontalAlign: 'left',
         }
     };
-    new ApexCharts(document.querySelector("#calls-growth-chart"), growthOptions).render();
+
+    if (document.querySelector("#calls-growth-chart"))
+        new ApexCharts(document.querySelector("#calls-growth-chart"), growthOptions).render();
 }
